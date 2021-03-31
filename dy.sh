@@ -2,7 +2,7 @@ git init
 
 git add .
 
-git commit -m 'user路由功能完成'
+git commit -m 'user注册和登录功能完成'
 
 git push gitee master
 
