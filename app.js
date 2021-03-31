@@ -9,4 +9,8 @@ server.listen(3001, () => {
 
 // 路由
 const userRouter = require('./router/user')
+const personalRouter = require('./router/personal')
+const articleRouter = require('./router/article')
 server.use('/api', userRouter)
+server.use('/my', personalRouter)
+server.use('/my', articleRouter)

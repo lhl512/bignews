@@ -4,7 +4,7 @@ const conn = require('../utils/sql')
 router.use(express.urlencoded())
 
 // 用户注册接口
-router.use('/reguser', (req, res) => {
+router.post('/reguser', (req, res) => {
     const {
         username,
         password
@@ -45,7 +45,7 @@ router.use('/reguser', (req, res) => {
 
 // 用户登录接口
 
-router.use('/login', (req, res) => {
+router.post('/login', (req, res) => {
     const {
         username,
         password

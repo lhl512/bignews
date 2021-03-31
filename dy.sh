@@ -2,7 +2,7 @@ git init
 
 git add .
 
-git commit -m 'user注册和登录功能完成'
+git commit -m '个人中心和文章分类功能完成'
 
 git push gitee master
 
