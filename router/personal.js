@@ -27,11 +27,13 @@ const conn = require('../utils/sql')
 
 // 获取用户的基本信息
 router.get('/userinfo', (req, res) => {
+    // console.log(req.user.username);
+
     const {
         username
     } = req.query
     // console.log(username);
-    let sql = `select id,username,nickname,email,userPic from users where username="${username}" `
+    let sql = `select id,username,nickname,email,userPic from users where username="${req.user.username}" `
 
     // console.log(sql);
 
@@ -71,10 +73,10 @@ router.post('/userinfo', (req, res) => {
         id,
         nickname,
         email,
-        userPic
+
     } = req.body
     console.log(id, nickname, email, userPic);
-    const sql = `update users set nickname="${nickname}",email="${email}",userPic="${userPic}" where id=${id}`
+    const sql = `update users set nickname="${nickname}",email="${email}" where id=${id}`
     conn.query(sql, (err, result) => {
             if (err) {
                 return res.json({
@@ -95,13 +97,20 @@ router.post('/userinfo', (req, res) => {
 // 上传用户头像
 router.post('/uploadPic', upload.single('file_data'), (req, res) => {
     // console.log(name);
+    console.log(req.body.file_data);
 
-    let file = "http://127.0.0.1:3001/uploads/" + req.file.filename
-    console.log(file);
-    res.json({
-        status: 0,
-        message: file
+    // let file = "http://127.0.0.1:3001/uploads/" + req.file.filename
+    // console.log(file);
+    const sql = `update users set userPic="${req.body.file_data}" where username="${req.user.username}"`
+    console.log(sql);
+
+    conn.query(sql, (err, result) => {
+        res.json({
+            status: 0,
+            message: req.body.file_data
+        })
     })
+
 })
 // 重置密码
 router.post('/updatepwd', (req, res) => {

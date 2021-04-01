@@ -123,7 +123,8 @@ router.post('/article/updatecate', (req, res) => {
 
 // 获取文章列表数据
 router.get('/article/list', (req, res) => {
-    const sql = `SELECT a.isDelete,a.id,a.title,a.date,a.state,a.categoryId,b.id,b.name FROM articles as a,categories as b where a.categoryId = b.id and a.isDelete =0
+    const sql = `SELECT a.id,a.title,a.date,a.state,b.name FROM articles as a,categories as b where a.categoryId = b.id and a.isDelete =0
+
     `
     conn.query(sql, (err, result) => {
         if (err) {
@@ -139,5 +140,29 @@ router.get('/article/list', (req, res) => {
         })
     })
 })
+
+// 根据id删除文章列表数据
+router.get('/article/delList', (req, res) => {
+    const {
+        id
+    } = req.query
+
+    const sql = `update articles set isDelete =1 where id =${id}`
+    console.log(sql);
+
+    conn.query(sql, (err, result) => {
+        if (err) {
+            return res.json({
+                status: 1,
+                message: '删除文章列表失败!'
+            })
+        }
+        res.json({
+            status: 0,
+            message: '删除文章列表成功!'
+        })
+    })
+})
+// 发表文章列表
 
 module.exports = router

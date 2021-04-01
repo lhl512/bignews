@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const conn = require('../utils/sql')
+const jwt = require('jsonwebtoken')
 router.use(express.urlencoded())
 
 // 用户注册接口
@@ -58,9 +59,19 @@ router.post('/login', (req, res) => {
                 message: '用户名或密码错误!'
             })
         }
+        // 返回token
+        const token = 'Bearer ' + jwt.sign({
+                username: username
+            },
+            'gz61', // 加密的密码，要与express-jwt中的验证密码一致
+            {
+                expiresIn: 2 * 60 * 60
+            } // 过期时间，单位是秒
+        )
         res.json({
             status: 0,
-            message: '登录成功！'
+            message: '登录成功！',
+            token
         })
     })
 })
